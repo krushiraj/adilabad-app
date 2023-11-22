@@ -100,7 +100,7 @@ const ImageCarousel = ({ images, interval = 2000 }) => {
           [{ nativeEvent: { contentOffset: { x: animatedScroll } } }],
           { useNativeDriver: false }
         )}
-        scrollEventThrottle={16}
+        scrollEventThrottle={200}
         style={styles.carouselContainer}
       >
         {images.map((image, index) => (
@@ -133,6 +133,11 @@ const CategoryTabs = ({ categories, onSelect }) => {
               onSelect(category);
             }}
           >
+            <Image
+              source={{ uri: "https://via.placeholder.com/50" }}
+              height={30}
+              width={30}
+            />
             <Text style={styles.tabText}>{category}</Text>
           </TouchableOpacity>
         ))}
@@ -141,20 +146,28 @@ const CategoryTabs = ({ categories, onSelect }) => {
   );
 };
 
-const CategoryGrid = ({ items, category, onSelect, navigation }) => {
-  const filteredItems = items.filter((item) => item.category === category);
+const CategoryGrid = ({ items, navigation }) => {
+  const screenHeight = Dimensions.get("window").height;
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+
+  const filteredItems = items.filter(
+    (item) => item.category === selectedCategory
+  );
 
   return (
     <FlatList
       data={filteredItems}
+      style={{
+        height: screenHeight,
+      }}
       contentContainerStyle={{
         alignItems: "center",
         justifyContent: "center",
-        marginBottom: 150,
       }}
       ListHeaderComponent={
-        <CategoryTabs categories={categories} onSelect={onSelect} />
+        <CategoryTabs categories={categories} onSelect={setSelectedCategory} />
       }
+      stickyHeaderIndices={[0]}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={styles.gridItem}
@@ -171,29 +184,17 @@ const CategoryGrid = ({ items, category, onSelect, navigation }) => {
       )}
       keyExtractor={(item, index) => `${item.id}${index}`}
       numColumns={2} // Adjust as needed
-      scrollEnabled={false} // Disable manual scrolling
     />
   );
 };
 
 const HomePage = ({ navigation }) => {
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-
   return (
-    <>
-      <ScrollView>
+    <View style={styles.container}>
       <BannerAd ads={ads} />
-        <View style={styles.container}>
-          <ImageCarousel images={carouselImages} />
-          <CategoryGrid
-            items={gridItems}
-            category={selectedCategory}
-            onSelect={setSelectedCategory}
-            navigation={navigation}
-          />
-        </View>
-      </ScrollView>
-    </>
+      <ImageCarousel images={carouselImages} />
+      <CategoryGrid items={gridItems} navigation={navigation} />
+    </View>
   );
 };
 
@@ -323,10 +324,10 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   tabsContainer: {
-    height: 46,
     width: "100%",
-    marginVertical: 10,
+    paddingVertical: 10,
     textAlignVertical: "center",
+    backgroundColor: "white",
   },
   tab: {
     height: 46,

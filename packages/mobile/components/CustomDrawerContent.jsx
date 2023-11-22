@@ -11,13 +11,14 @@ const CustomDrawerContent = (props) => {
   const [user, setUser] = useContext(UserContext);
 
   const userName = (user && (user.name || user.phoneNumber)) || "Please Login";
+  const profilePicUri = (user && user.profilePic) || "https://via.placeholder.com/150";
 
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.userInfoSection}>
         <>
           <Image
-            source={{ uri: "https://via.placeholder.com/150" }}
+            source={{ uri: profilePicUri }}
             style={styles.userImage}
           />
           <Text style={styles.userName}>{userName}</Text>
