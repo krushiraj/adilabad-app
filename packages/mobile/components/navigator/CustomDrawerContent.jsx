@@ -5,7 +5,7 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 const CustomDrawerContent = (props) => {
   const [user, setUser] = useContext(UserContext);
