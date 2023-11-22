@@ -1,0 +1,7 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "Admin Dashboard to manage DB, Listings and many other stuff.",
+  "main": "index.js",
+  "license": "MIT"
+}
