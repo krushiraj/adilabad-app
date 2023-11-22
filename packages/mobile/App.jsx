@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+
 import HomePage from "./pages/HomePage"; // Import your screen components
 import AboutPage from "./pages/AboutPage";
 import CustomDrawerContent from "./components/CustomDrawerContent";
@@ -22,7 +24,7 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerStyle: {
           backgroundColor: "#f4511e", // Example background color
         },
@@ -30,7 +32,21 @@ const DrawerNavigator = () => {
         headerTitleStyle: {
           fontWeight: "bold", // Example title style
         },
-      }}
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.toggleDrawer();
+            }}
+          >
+            <Ionicons
+              name="menu"
+              size={32}
+              color="#fff"
+              style={{ marginLeft: 10 }}
+            />
+          </TouchableOpacity>
+        ),
+      })}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       {!user && <Drawer.Screen name="Login" component={LoginPage} />}
@@ -57,7 +73,9 @@ const StackNavigator = () => (
     <Stack.Screen
       name="DrawerScreens"
       component={DrawerNavigator}
-      options={{ headerShown: false }}
+      options={{
+        headerShown: false,
+      }}
     />
     <Stack.Screen
       name="Details"
