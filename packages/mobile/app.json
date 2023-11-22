@@ -1,10 +1,18 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Adilabad App",
+    "slug": "adilabad-app",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ]
+  },
+  "extra": {
+    "firebaseApiKey": "your_firebase_api_key",
+    "firebaseAuthDomain": "your_firebase_auth_domain",
+    "firebaseProjectId": "your_firebase_project_id",
+    "firebaseStorageBucket": "your_firebase_storage_bucket",
+    "firebaseMessagingSenderId": "your_firebase_messaging_sender_id",
+    "firebaseAppId": "your_firebase_app_id"
   }
 }
