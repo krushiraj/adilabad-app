@@ -3,12 +3,17 @@ import { TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 
-// Import your custom components here
+// components
 import CustomDrawerContent from './CustomDrawerContent';
-import LoginPage from '../pages/LoginPage';
-import ProfilePage from '../pages/ProfilePage';
-import HomePage from '../pages/HomePage';
-import AboutPage from '../pages/AboutPage';
+
+// pages
+import LoginPage from '../../pages/LoginPage';
+import ProfilePage from '../../pages/ProfilePage';
+import HomePage from '../../pages/HomePage';
+import AboutPage from '../../pages/AboutPage';
+
+// contexts
+import { UserContext } from '../../contexts/UserContext';
 
 const Drawer = createDrawerNavigator();
 

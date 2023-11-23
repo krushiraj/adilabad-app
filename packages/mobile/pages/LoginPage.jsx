@@ -99,7 +99,11 @@ const LoginPage = () => {
     confirmCode(formattedOtp);
   };
 
-  return (
+  return user ? (
+    <View style={styles.container}>
+      <Text>You are logged in as {user.phoneNumber}</Text>
+    </View>
+  ) : (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.inputWrapper}>
