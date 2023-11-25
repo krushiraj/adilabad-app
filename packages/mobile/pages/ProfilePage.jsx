@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    gap: 30,
   },
   textInput: {
     width: 200,
