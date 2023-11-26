@@ -5,7 +5,12 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "46b45792-2be9-4ce9-ad08-39fc7e412137"
+      }
+    }
   },
   "extra": {
     "firebaseApiKey": "your_firebase_api_key",
