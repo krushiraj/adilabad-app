@@ -29,7 +29,8 @@
     "react-native-webview": "^13.6.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "eas-cli": "^5.9.1"
   },
   "private": true
 }
