@@ -24,7 +24,7 @@ const MediaSchema = new Schema({
 const ListingSchema = new Schema(
   {
     name: {
-      type: Array,
+      type: String,
       required: true,
     },
     category: {

@@ -10,7 +10,10 @@ const Admin = db.Admin;
 // create a new admin via signup
 export const signUp = async (req, res) => {
   try {
-    const admin = new Admin(req.body);
+    const admin = new Admin({
+      ...req.body,
+      password: bcrypt.hashSync(req.body.password, 8),
+    });
     const savedAdmin = await admin.save();
 
     const token = jwt.sign(
@@ -25,7 +28,7 @@ export const signUp = async (req, res) => {
 
     res.status(201).json({
       token,
-      ...savedAdmin,
+      ...admin,
     });
   } catch (error) {
     res.status(500).json({
@@ -37,10 +40,20 @@ export const signUp = async (req, res) => {
 // get admin for signin
 export const signIn = async (req, res) => {
   try {
-    const admin = await Admin.findOne(req.body);
+    const admin = await Admin.findOne({
+      email: req.body.email,
+    });
     if (!admin) {
       return res.status(404).json({
         error: "Admin not found",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(req.body.password, admin.password);
+
+    if (!isMatch) {
+      return res.status(400).json({
+        error: "Invalid credentials",
       });
     }
 
@@ -54,13 +67,14 @@ export const signIn = async (req, res) => {
       }
     );
 
-    req.session.user = user;
+    req.session.user = admin;
 
     res.json({
       token,
       ...admin,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       error: "Internal server error",
     });

@@ -5,7 +5,11 @@ const Listing = db.Listing;
 // Get all listings
 export const findAll = async (req, res) => {
   try {
-    const listings = await find();
+    const query = {
+      ...req.query,
+    }
+
+    const listings = await Listing.find(query).populate("category");
     res.json(listings);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -15,7 +19,7 @@ export const findAll = async (req, res) => {
 // Get a single listing by ID
 export const findOne = async (req, res) => {
   try {
-    const listing = await findById(req.params.id);
+    const listing = await Listing.findById(req.params.id).populate("category");
     if (!listing) {
       return res.status(404).json({ error: "Listing not found" });
     }
@@ -32,6 +36,7 @@ export const create = async (req, res) => {
     await listing.save();
     res.status(201).json(listing);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -39,9 +44,9 @@ export const create = async (req, res) => {
 // Update a listing by ID
 export const update = async (req, res) => {
   try {
-    const listing = await findByIdAndUpdate(req.params.id, req.body, {
+    const listing = await Listing.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-    });
+    }).populate("category");
     if (!listing) {
       return res.status(404).json({ error: "Listing not found" });
     }
@@ -54,7 +59,7 @@ export const update = async (req, res) => {
 // Delete a listing by ID
 export const remove = async (req, res) => {
   try {
-    const listing = await findByIdAndDelete(req.params.id);
+    const listing = await Listing.findByIdAndDelete(req.params.id);
     if (!listing) {
       return res.status(404).json({ error: "Listing not found" });
     }

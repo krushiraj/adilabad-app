@@ -6,11 +6,12 @@ const AdminSchema = new Schema(
   {
     name: {
       type: String,
-      default: "",
+      default: "Adilbad Admin",
     },
     email: {
       type: String,
-      required: true, // This is a required field
+      required: true,
+      unique: true,
     },
     password: {
       type: String,

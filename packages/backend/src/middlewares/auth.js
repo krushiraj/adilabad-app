@@ -1,7 +1,9 @@
 import admin from "firebase-admin";
+import jwt from "jsonwebtoken";
 
 import db from "../models/index.js";
 
+import config from "../config/index.js";
 import firebaseAdminConfig from "../../adb-app-krushi-firebase-adminsdk.json" assert { type: "json" };
 
 export const checkFirebaseUserId = async (req, res, next) => {
@@ -49,7 +51,7 @@ export const verifyToken = (req, res, next) => {
 
 export const isAdmin = async (req, res, next) => {
   try {
-    const admin = await db.Admin.findById(req.user._id);
+    const admin = await db.Admin.findById(req.session.user._id);
     if (!admin) {
       return res.status(403).send({ message: "Require Admin Role!" });
     }
