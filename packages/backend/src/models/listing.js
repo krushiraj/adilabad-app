@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import timestamp from "./options/timestamp";
+import timestamp from "./options/timestamp.js";
 
 const ListingSchema = new Schema(
   {

@@ -1,15 +1,21 @@
 import { Schema, model } from "mongoose";
 
-import timestamp from "./options/timestamp";
+import timestamp from "./options/timestamp.js";
 
 const UserSchema = new Schema({
   name: {
     type: String,
-    default: "",
+    default: "Adilabadi",
   },
   phoneNumber: {
     type: String,
-    required: true, // This is a required field
+    unique: true,
+    required: true,
+  },
+  uid: {
+    type: String,
+    unique: true,
+    required: true,
   },
 }, {
   ...timestamp,

@@ -11,7 +11,7 @@ start() {
 
   echo
   echo "---- SETTING UP MONGO REPLICASET"
-  docker exec -it docker_mongo_1 mongo --eval "printjson(rs.initiate({ _id: \"rs0\", members: [ { _id: 0, host: \"mongo:27017\"} ] }))"
+  docker exec -it docker-mongo-1 mongo --eval "printjson(rs.initiate({ _id: \"rs0\", members: [ { _id: 0, host: \"mongo:27017\"} ] }))"
   
   echo
   echo "---- DONE, STATUS:"

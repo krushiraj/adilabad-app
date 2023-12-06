@@ -1,22 +1,19 @@
-import db from "../models";
+import db from "../models/index.js";
 
 const Category = db.Category;
+const Listing = db.Listing;
 
 // Create and Save a new Category
 export const create = async (req, res) => {
   try {
     // Validate request
     if (!req.body.name) {
-      res.status(400).send({ message: "Content can not be empty!" });
+      res.status(400).send({ message: "Category name can not be empty!" });
       return;
     }
 
     // Create a Category
-    const category = new Category({
-      name: req.body.name,
-      description: req.body.description,
-      published: req.body.published ? req.body.published : false,
-    });
+    const category = new Category(req.body);
 
     // Save Category in the database
     const data = await category.save();
@@ -74,14 +71,18 @@ export const update = async (req, res) => {
 
     const id = req.params.id;
 
-    const data = await Category.findByIdAndUpdate(id, req.body, {
+    const updatedCategory = await Category.findByIdAndUpdate(id, req.body, {
       useFindAndModify: false,
+      new: true, // Return the updated document
     });
-    if (!data) {
+
+    if (!updatedCategory) {
       res.status(404).send({
         message: `Cannot update Category with id=${id}. Maybe Category was not found!`,
       });
-    } else res.send({ message: "Category was updated successfully." });
+    } else {
+      res.send(updatedCategory);
+    }
   } catch (err) {
     res.status(500).send({
       message: "Error updating Category with id=" + id,
@@ -93,6 +94,14 @@ export const update = async (req, res) => {
 export const remove = async (req, res) => {
   try {
     const id = req.params.id;
+
+    // delete all categories that have this category as parent
+    const childrenData = await Category.deleteMany({ parentCategory: id });
+    // console.log(`Deleted ${childrenData.deletedCount} children categories.`);
+
+    // set category to null for all listings
+    const listingData = await Listing.updateMany({ category: id }, { category: null });
+    // console.log(`Updated ${listingData.nModified} listings.`);
 
     const data = await Category.findByIdAndRemove(id);
     if (!data) {

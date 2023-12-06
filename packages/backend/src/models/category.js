@@ -1,11 +1,12 @@
 import { Schema, model } from "mongoose";
 
-import timestamp from "./options/timestamp";
+import timestamps from "./options/timestamp.js";
 
 const CategorySchema = new Schema(
   {
     name: {
       type: String,
+      unique: true,
       required: true,
     },
     parentCategory: {
@@ -13,10 +14,18 @@ const CategorySchema = new Schema(
       ref: "Category",
       default: null, // Null for main categories
     },
+    published: {
+      type: Boolean,
+      default: false,
+    },
+    description: {
+      type: String,
+      default: "",
+    },
     // Add other fields as needed, e.g., description, image URL, etc.
   },
   {
-    ...timestamp,
+    timestamps,
   }
 );
 
