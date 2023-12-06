@@ -8,6 +8,7 @@ import db from "./models/index.js";
 import userRoutes from "./routes/user.js";
 import adminRoutes from "./routes/admin.js";
 import categoryRoutes from "./routes/category.js";
+import listingRoutes from "./routes/listing.js";
 
 import config from "./config/index.js";
 
@@ -59,6 +60,7 @@ app.get("/api/isalive", (req, res) => {
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/listing", listingRoutes);
 
 const PORT = process.env.PORT || 8000;
 

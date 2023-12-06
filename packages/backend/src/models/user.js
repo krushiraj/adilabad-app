@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import timestamp from "./options/timestamp.js";
+import timestamps from "./options/timestamp.js";
 
 const UserSchema = new Schema({
   name: {
@@ -18,7 +18,7 @@ const UserSchema = new Schema({
     required: true,
   },
 }, {
-  ...timestamp,
+  timestamps,
 });
 
 const User = model("User", UserSchema);

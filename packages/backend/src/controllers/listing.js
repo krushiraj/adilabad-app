@@ -3,7 +3,7 @@ import db from "../models/index.js";
 const Listing = db.Listing;
 
 // Get all listings
-export const getAllListings = async (req, res) => {
+export const findAll = async (req, res) => {
   try {
     const listings = await find();
     res.json(listings);
@@ -13,7 +13,7 @@ export const getAllListings = async (req, res) => {
 };
 
 // Get a single listing by ID
-export const getListingById = async (req, res) => {
+export const findOne = async (req, res) => {
   try {
     const listing = await findById(req.params.id);
     if (!listing) {
@@ -26,7 +26,7 @@ export const getListingById = async (req, res) => {
 };
 
 // Create a new listing
-export const createListing = async (req, res) => {
+export const create = async (req, res) => {
   try {
     const listing = new Listing(req.body);
     await listing.save();
@@ -37,7 +37,7 @@ export const createListing = async (req, res) => {
 };
 
 // Update a listing by ID
-export const updateListing = async (req, res) => {
+export const update = async (req, res) => {
   try {
     const listing = await findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -52,7 +52,7 @@ export const updateListing = async (req, res) => {
 };
 
 // Delete a listing by ID
-export const deleteListing = async (req, res) => {
+export const remove = async (req, res) => {
   try {
     const listing = await findByIdAndDelete(req.params.id);
     if (!listing) {

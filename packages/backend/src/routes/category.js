@@ -7,13 +7,14 @@ import {
   remove,
   update,
 } from "../controllers/category.js";
+import { isAdmin, verifyToken } from "../middlewares/auth.js";
 
 const router = Router();
 
-router.post("/", create);
+router.post("/", verifyToken, isAdmin, create);
 router.get("/", findAll);
 router.get("/:id", findOne);
-router.put("/:id", update);
-router.delete("/:id", remove);
+router.put("/:id", verifyToken, isAdmin, update);
+router.delete("/:id", verifyToken, isAdmin, remove);
 
 export default router;

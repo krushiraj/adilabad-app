@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import timestamp from "./options/timestamp.js";
+import timestamps from "./options/timestamp.js";
 
 const AdminSchema = new Schema(
   {
@@ -18,7 +18,7 @@ const AdminSchema = new Schema(
     },
   },
   {
-    ...timestamp,
+    timestamps,
   }
 );
 

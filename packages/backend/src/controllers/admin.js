@@ -54,6 +54,8 @@ export const signIn = async (req, res) => {
       }
     );
 
+    req.session.user = user;
+
     res.json({
       token,
       ...admin,

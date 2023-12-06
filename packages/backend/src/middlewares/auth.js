@@ -1,4 +1,7 @@
 import admin from "firebase-admin";
+
+import db from "../models/index.js";
+
 import firebaseAdminConfig from "../../adb-app-krushi-firebase-adminsdk.json" assert { type: "json" };
 
 export const checkFirebaseUserId = async (req, res, next) => {
@@ -42,4 +45,16 @@ export const verifyToken = (req, res, next) => {
     req.userId = decoded.id;
     next();
   });
+};
+
+export const isAdmin = async (req, res, next) => {
+  try {
+    const admin = await db.Admin.findById(req.user._id);
+    if (!admin) {
+      return res.status(403).send({ message: "Require Admin Role!" });
+    }
+    next();
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
 };
