@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import bcrypt from "bcryptjs";
+import winston from "winston";
+import os from "os";
 
 import db from "./models/index.js";
 
@@ -14,9 +17,32 @@ import config from "./config/index.js";
 
 const app = express();
 
+// Winston logger middleware
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "logs.log" }),
+  ],
+});
+
+// set logger to be available in all routes
+app.use((req, res, next) => {
+  req.logger = logger;
+  next();
+});
+
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.url}`);
+  logger.info(`Request body: ${JSON.stringify(req.body)}`);
+  next();
+  logger.info(`Response status: ${res.statusCode}`);
+  logger.info(`Response body: ${JSON.stringify(res.body)}`);
+});
+
 // enable CORS
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "http://localhost:3001"],
+  credentials: true,
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -39,6 +65,7 @@ app.use(
     cookie: {
       secure: false, // Set to true if using https
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days validity
+      sameSite: "lax",
     },
   })
 );
@@ -72,7 +99,30 @@ app.listen(PORT, async () => {
 
   if (dbConnection) {
     console.log("Connected to MongoDB.");
+
+    // check if any admin exists
+    const admin = await db.Admin.findOne();
+    if (!admin) {
+      // create a default admin
+      await db.Admin.create({
+        name: "Admin",
+        username: "admin",
+        password: await bcrypt.hash("admin", 8),
+      });
+
+      console.log("Created a default admin.");
+    }
   }
 
-  console.log(`Server running on port: ${PORT}`);
+  const networkInterfaces = os.networkInterfaces();
+  for (const name of Object.keys(networkInterfaces)) {
+    for (const net of networkInterfaces[name]) {
+      // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+      if (net.family === "IPv4" && !net.internal) {
+        console.log(
+          `Backend server is running on http://${net.address}:${PORT}`
+        );
+      }
+    }
+  }
 });

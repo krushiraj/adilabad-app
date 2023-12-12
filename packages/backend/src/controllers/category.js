@@ -29,10 +29,14 @@ export const create = async (req, res) => {
 // Retrieve all Categories from the database.
 export const findAll = async (req, res) => {
   try {
-    const name = req.query.name;
-    var condition = name
-      ? { name: { $regex: new RegExp(name), $options: "i" } }
-      : {};
+    const condition = {
+      ...("name" in req.query
+        ? { name: { $regex: new RegExp(req.query.name), $options: "i" } }
+        : {}),
+      ...("parentCategory" in req.query
+        ? { parentCategory: req.query.parentCategory || null }
+        : {}),
+    };
 
     const data = await Category.find(condition);
     res.send(data);
@@ -49,7 +53,7 @@ export const findOne = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const data = await Category.findById(id);
+    const data = await Category.findById(id).populate("parentCategory");
     if (!data)
       res.status(404).send({ message: "Not found Category with id " + id });
     else res.send(data);
@@ -100,7 +104,10 @@ export const remove = async (req, res) => {
     // console.log(`Deleted ${childrenData.deletedCount} children categories.`);
 
     // set category to null for all listings
-    const listingData = await Listing.updateMany({ category: id }, { category: null });
+    const listingData = await Listing.updateMany(
+      { category: id },
+      { category: null }
+    );
     // console.log(`Updated ${listingData.nModified} listings.`);
 
     const data = await Category.findByIdAndRemove(id);

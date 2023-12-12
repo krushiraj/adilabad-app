@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,19 +10,50 @@ import {
 } from "react-native";
 import CategoryTabs from "./CategoryTabs";
 
-const categories = ["Grocery", "Medicine", "Food", "Electronics", "Fashion"];
+const CategoryGrid = ({ navigation }) => {
+  const [categories, setCategories] = useState([]);
+  const [items, setItems] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-const CategoryGrid = ({ items, navigation }) => {
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  useEffect(() => {
+    fetch("http://192.168.1.21:8000/api/category")
+      .then((response) => {
+        return response.json();
+      })
+      .then((categoriesData) => {
+        setCategories(categoriesData);
+        setSelectedCategory(categoriesData[0]);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
 
-  const filteredItems = items.filter(
-    (item) => item.category === selectedCategory
-  );
+  useEffect(() => {
+    console.log(selectedCategory);
+    if (!selectedCategory) {
+      return;
+    }
+
+    fetch(
+      `http://192.168.1.21:8000/api/listing?category=${selectedCategory._id}`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((itemsData) => {
+        console.log(itemsData);
+        setItems(itemsData);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+  }, [selectedCategory]);
 
   return (
     <>
       <FlatList
-        data={filteredItems}
+        data={items}
         ListHeaderComponent={
           <CategoryTabs
             categories={categories}

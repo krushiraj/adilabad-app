@@ -9,6 +9,10 @@ const CategorySchema = new Schema(
       unique: true,
       required: true,
     },
+    image: {
+      type: String,
+      default: "https://via.placeholder.com/50",
+    },
     parentCategory: {
       type: Schema.Types.ObjectId,
       ref: "Category",

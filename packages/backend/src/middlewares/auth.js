@@ -34,7 +34,7 @@ export const checkFirebaseUserId = async (req, res, next) => {
 };
 
 export const verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+  const token = req.headers["x-access-token"];
 
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
@@ -44,7 +44,9 @@ export const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized!" });
     }
-    req.userId = decoded.id;
+    if (req.session.user._id !== decoded._id) {
+      return res.status(401).send({ message: "Unauthorized!" });
+    }
     next();
   });
 };
@@ -57,6 +59,6 @@ export const isAdmin = async (req, res, next) => {
     }
     next();
   } catch (error) {
-    res.status(500).send({ message: error });
+    res.status(500).send({ message: error.message });
   }
 };

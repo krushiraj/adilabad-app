@@ -16,10 +16,10 @@ const CategoryTabs = ({ categories, onSelect }) => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categories.map((category) => (
           <TouchableOpacity
-            key={category}
+            key={category._id}
             style={[
               styles.tab,
-              selectedCategory === category && styles.tabSelected,
+              selectedCategory && selectedCategory._id === category._id && styles.tabSelected,
             ]}
             onPress={() => {
               setSelectedCategory(category);
@@ -31,7 +31,7 @@ const CategoryTabs = ({ categories, onSelect }) => {
               height={30}
               width={30}
             />
-            <Text style={styles.tabText}>{category}</Text>
+            <Text style={styles.tabText}>{category.name}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

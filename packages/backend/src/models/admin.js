@@ -8,7 +8,7 @@ const AdminSchema = new Schema(
       type: String,
       default: "Adilbad Admin",
     },
-    email: {
+    username: {
       type: String,
       required: true,
       unique: true,

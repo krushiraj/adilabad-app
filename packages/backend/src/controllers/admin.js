@@ -41,7 +41,7 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
   try {
     const admin = await Admin.findOne({
-      email: req.body.email,
+      username: req.body.username,
     });
     if (!admin) {
       return res.status(404).json({
@@ -52,7 +52,7 @@ export const signIn = async (req, res) => {
     const isMatch = await bcrypt.compare(req.body.password, admin.password);
 
     if (!isMatch) {
-      return res.status(400).json({
+      return res.status(401).json({
         error: "Invalid credentials",
       });
     }
@@ -67,11 +67,13 @@ export const signIn = async (req, res) => {
       }
     );
 
-    req.session.user = admin;
+    
+    delete admin._doc.password;
+    req.session.user = admin._doc;
 
     res.json({
       token,
-      ...admin,
+      ...admin._doc,
     });
   } catch (error) {
     console.log(error);
