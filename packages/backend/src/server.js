@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 
 // enable CORS
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001"],
+  origin: ["http://localhost:3000", "http://localhost:3001", "https://adilabad-app-dashboard.vercel.app"],
   credentials: true,
   optionsSuccessStatus: 200,
 };
