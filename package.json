@@ -8,5 +8,8 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "start:backend": "yarn --cwd packages/backend start"
+  },
   "license": "MIT"
 }
