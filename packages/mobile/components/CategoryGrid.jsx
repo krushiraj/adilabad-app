@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  Dimensions,
   StyleSheet,
 } from "react-native";
 import CategoryTabs from "./CategoryTabs";
+import { apiCallAddresses } from "../utils/api";
 
 const CategoryGrid = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
@@ -16,7 +16,7 @@ const CategoryGrid = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
-    fetch("http://192.168.1.21:8000/api/category")
+    fetch(apiCallAddresses.categories.listAllWithoutParent)
       .then((response) => {
         return response.json();
       })
@@ -34,13 +34,17 @@ const CategoryGrid = ({ navigation }) => {
       return;
     }
 
-    fetch(
-      `http://192.168.1.21:8000/api/listing?category=${selectedCategory._id}`
-    )
+    console.log("selectedCategory", selectedCategory);
+    console.log(
+      "api call",
+      apiCallAddresses.listings.listByCategory`${selectedCategory._id}`
+    );
+    fetch(apiCallAddresses.listings.listByCategory`${selectedCategory._id}`)
       .then((response) => {
         return response.json();
       })
       .then((itemsData) => {
+        console.log("itemsData", itemsData);
         setItems(itemsData);
       })
       .catch((error) => {
@@ -55,6 +59,7 @@ const CategoryGrid = ({ navigation }) => {
         ListHeaderComponent={
           <CategoryTabs
             categories={categories}
+            selectedCategory={selectedCategory}
             onSelect={setSelectedCategory}
           />
         }
@@ -63,20 +68,23 @@ const CategoryGrid = ({ navigation }) => {
           alignItems: "center",
           justifyContent: "center",
         }}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.gridItem}
-            onPress={() => navigation.navigate("Details", { item })}
-          >
-            <View style={styles.gridItem}>
-              <Image
-                source={{ uri: "https://via.placeholder.com/150" }}
-                style={{ width: 100, height: 100 }}
-              />
-              <Text>{item.title}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) => {
+          console.log("item", item);
+          return (
+            <TouchableOpacity
+              style={styles.gridItem}
+              onPress={() => navigation.navigate("Details", { item })}
+            >
+              <View style={styles.gridItem}>
+                <Image
+                  source={{ uri: item.coverImage || "https://via.placeholder.com/150" }}
+                  style={{ width: 100, height: 100 }}
+                />
+                <Text>{item.name}</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
         keyExtractor={(item, index) => `${item.id}${index}`}
         numColumns={2}
         scrollsToTop={true}

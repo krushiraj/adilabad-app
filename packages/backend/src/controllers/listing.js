@@ -9,6 +9,7 @@ export const findAll = async (req, res) => {
       ...("name" in req.query
         ? { name: { $regex: new RegExp(req.query.name), $options: "i" } }
         : {}),
+      ...("category" in req.query ? { category: req.query.category } : {}),
     };
 
     const listings = await Listing.find(condition).populate("category");

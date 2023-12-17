@@ -8,36 +8,33 @@ import {
   StyleSheet,
 } from "react-native";
 
-const CategoryTabs = ({ categories, onSelect }) => {
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-
-  return (
-    <View style={styles.tabsContainer}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {categories.map((category) => (
-          <TouchableOpacity
-            key={category._id}
-            style={[
-              styles.tab,
-              selectedCategory && selectedCategory._id === category._id && styles.tabSelected,
-            ]}
-            onPress={() => {
-              setSelectedCategory(category);
-              onSelect(category);
-            }}
-          >
-            <Image
-              source={{ uri: "https://via.placeholder.com/50" }}
-              height={30}
-              width={30}
-            />
-            <Text style={styles.tabText}>{category.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
-  );
-};
+const CategoryTabs = ({ categories, selectedCategory, onSelect }) => (
+  <View style={styles.tabsContainer}>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      {categories.map((category) => (
+        <TouchableOpacity
+          key={category._id}
+          style={[
+            styles.tab,
+            selectedCategory &&
+              selectedCategory._id === category._id &&
+              styles.tabSelected,
+          ]}
+          onPress={() => {
+            onSelect(category);
+          }}
+        >
+          <Image
+            source={{ uri: category.image }}
+            height={30}
+            width={30}
+          />
+          <Text style={styles.tabText}>{category.name}</Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  </View>
+);
 
 const styles = StyleSheet.create({
   tabsContainer: {

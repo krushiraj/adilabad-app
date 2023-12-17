@@ -49,7 +49,7 @@ const StackNavigator = () => (
       name="Details"
       component={DetailsPage}
       options={({ route }) => ({
-        title: route.params.item.title,
+        title: route.params.item.name,
       })}
     />
     {/* You can add more screens that should not appear in the drawer here */}

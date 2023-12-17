@@ -19,6 +19,8 @@ const PhoneNumberInput = ({ value, onChange }) => {
 };
 
 const MediaInput = ({ value, onChange }) => {
+  console.log("value in child", value);
+
   const [type, setType] = useState(value.type || "");
   const [url, setUrl] = useState(value.url || "");
 
@@ -62,6 +64,7 @@ const ListingForm = ({
   const [name, setName] = useState("");
   const [category, setCategory] = useState(null);
   const [description, setDescription] = useState("");
+  const [coverImage, setCoverImage] = useState("");
   const [phoneNumbers, setPhoneNumbers] = useState([""]);
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
@@ -82,6 +85,7 @@ const ListingForm = ({
           setName(data.name);
           setCategory(data.category);
           setDescription(data.description);
+          setCoverImage(data.coverImage);
           setPhoneNumbers(data.phoneNumbers);
           setEmail(data.links.email);
           setWebsite(data.links.website);
@@ -105,6 +109,10 @@ const ListingForm = ({
     setDescription(e.target.value);
   };
 
+  const handleCoverImageChange = (e) => {
+    setCoverImage(e.target.value);
+  };
+
   const handleCategoryChange = (val) => {
     setCategory(val);
   };
@@ -114,6 +122,7 @@ const ListingForm = ({
     onSubmit({
       name,
       description,
+      coverImage,
       category,
       phoneNumbers,
       links: {
@@ -189,6 +198,21 @@ const ListingForm = ({
           disabled={mode === "delete"}
         />
       </div>
+
+      <div className="mb-4">
+        <label htmlFor="coverImage" className="block mb-2 font-medium">
+          Cover Image
+        </label>
+        <input
+          id="coverImage"
+          value={coverImage}
+          onChange={handleCoverImageChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
+          disabled={mode === "delete"}
+        />
+      </div>
+
       <div className="mb-4">
         <label htmlFor="parent" className="block mb-2 font-medium">
           Category

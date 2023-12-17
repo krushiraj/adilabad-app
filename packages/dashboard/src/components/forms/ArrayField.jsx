@@ -19,6 +19,8 @@ const ArrayField = ({ childComponent: ChildComponent, values, setValues }) => {
     setValues(newValues);
   };
 
+  console.log("values", values);
+
   return (
     <div>
       {values.map((value, index) => (

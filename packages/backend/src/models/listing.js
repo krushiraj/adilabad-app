@@ -29,6 +29,10 @@ const ListingSchema = new Schema(
       type: String,
       required: true,
     },
+    coverImage: {
+      type: String,
+      required: true,
+    },
     phoneNumbers: [{
       type: String,
       default: null,
