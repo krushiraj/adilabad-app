@@ -75,7 +75,7 @@ export const signIn = async (req, res) => {
       ...admin._doc,
     });
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.status(500).json({
       error: "Internal server error",
     });

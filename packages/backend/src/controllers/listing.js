@@ -39,7 +39,7 @@ export const create = async (req, res) => {
     await listing.save();
     res.status(201).json(listing);
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

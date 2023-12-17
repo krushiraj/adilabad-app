@@ -34,17 +34,11 @@ const CategoryGrid = ({ navigation }) => {
       return;
     }
 
-    console.log("selectedCategory", selectedCategory);
-    console.log(
-      "api call",
-      apiCallAddresses.listings.listByCategory`${selectedCategory._id}`
-    );
     fetch(apiCallAddresses.listings.listByCategory`${selectedCategory._id}`)
       .then((response) => {
         return response.json();
       })
       .then((itemsData) => {
-        console.log("itemsData", itemsData);
         setItems(itemsData);
       })
       .catch((error) => {
@@ -68,23 +62,22 @@ const CategoryGrid = ({ navigation }) => {
           alignItems: "center",
           justifyContent: "center",
         }}
-        renderItem={({ item }) => {
-          console.log("item", item);
-          return (
-            <TouchableOpacity
-              style={styles.gridItem}
-              onPress={() => navigation.navigate("Details", { item })}
-            >
-              <View style={styles.gridItem}>
-                <Image
-                  source={{ uri: item.coverImage || "https://via.placeholder.com/150" }}
-                  style={{ width: 100, height: 100 }}
-                />
-                <Text>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.gridItem}
+            onPress={() => navigation.navigate("Details", { item })}
+          >
+            <View style={styles.gridItem}>
+              <Image
+                source={{
+                  uri: item.coverImage || "https://via.placeholder.com/150",
+                }}
+                style={{ width: 100, height: 100 }}
+              />
+              <Text>{item.name}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
         keyExtractor={(item, index) => `${item.id}${index}`}
         numColumns={2}
         scrollsToTop={true}

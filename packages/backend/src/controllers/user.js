@@ -20,7 +20,7 @@ export const signUp = async (req, res) => {
 
     res.status(201).json({ token, ...savedUser });
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -53,7 +53,7 @@ export const checkUser = async (req, res) => {
     }
     res.status(200).send();
   } catch (error) {
-    console.log(error);
+    console.warn(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

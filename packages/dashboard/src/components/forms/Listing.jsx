@@ -19,8 +19,6 @@ const PhoneNumberInput = ({ value, onChange }) => {
 };
 
 const MediaInput = ({ value, onChange }) => {
-  console.log("value in child", value);
-
   const [type, setType] = useState(value.type || "");
   const [url, setUrl] = useState(value.url || "");
 
