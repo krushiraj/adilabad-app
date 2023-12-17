@@ -50,7 +50,7 @@ const CategoryForm = ({
 
   const handleQuery = async (searchTerm) => {
     const response = await fetch(
-      `http://localhost:8000/api/category?parentCategory&name=${searchTerm}`
+      apiCallAddresses.categories.listAllWithoutParent`${searchTerm}`
     );
     const results = await response.json();
     return results;
