@@ -6,7 +6,7 @@ import { apiCallAddresses } from "../utils/api";
 import { deleteUser } from "../utils/localStorage";
 
 const Header = () => {
-  const [user] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -14,10 +14,15 @@ const Header = () => {
     fetch(apiCallAddresses.auth.signout, {
       method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": user.token,
+      },
     })
       .then(() => {
         navigate("/");
         deleteUser();
+        setUser(null);
       })
       .catch(console.error);
   };

@@ -125,6 +125,7 @@ app.listen(PORT, async () => {
         console.log(
           `Backend server is running on http://${net.address}:${PORT}`
         );
+        console.log(`Production Environment: ${process.env.NODE_ENV === "production"}`)
       }
     }
   }

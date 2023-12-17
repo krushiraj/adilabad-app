@@ -6,3 +6,4 @@ packages/backend/firebase-adminsdk.json
 app-apks
 *apks
 *aab
+.DS_Store
