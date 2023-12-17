@@ -25,7 +25,7 @@ const DetailsPage = ({ route }) => {
     ...item,
   };
 
-  itemData.media = [{ uri: itemData.coverImage }, ...itemData.media];
+  itemData.media = [{ url: itemData.coverImage }, ...itemData.media];
 
   const openLink = (link) => {
     Linking.openURL(link);
@@ -43,7 +43,7 @@ const DetailsPage = ({ route }) => {
         contentContainerStyle={{ alignItems: "center" }}
       >
         <Image
-          source={itemData.media[selectedMediaIndex]}
+          source={{ uri: itemData.media[selectedMediaIndex].url }}
           style={styles.selectedMedia}
         />
         <ScrollView horizontal>
@@ -54,7 +54,7 @@ const DetailsPage = ({ route }) => {
             >
               <Image
                 key={index}
-                source={media}
+                source={{ uri: media.url }}
                 style={[
                   styles.mediaItem,
                   selectedMediaIndex === index && styles.selectedMediaItem,
