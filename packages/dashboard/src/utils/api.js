@@ -1,4 +1,4 @@
-import config from "../../../backend/src/config";
+import config from "../config";
 
 const HOST = config.BACKEND_HOST;
 
