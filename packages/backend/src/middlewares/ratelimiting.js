@@ -5,6 +5,9 @@ const rateLimiter = (windowMs, max) =>
     windowMs,
     max,
     standardHeaders: true,
+    validate: {
+      xForwardedForHeader: true,
+    }
   });
 
 export default rateLimiter;
