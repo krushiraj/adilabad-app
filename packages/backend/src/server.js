@@ -66,9 +66,10 @@ app.use(
       collectionName: "sessions",
     }),
     cookie: {
-      secure: process.env.NODE_ENV === "production" ? true : false, // Set to true if using https
+      secure: true, // Set to true if using https
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days validity
-      sameSite: "lax",
+      sameSite: "none",
+      httpOnly: true,
     },
   })
 );
@@ -125,7 +126,9 @@ app.listen(PORT, async () => {
         console.log(
           `Backend server is running on http://${net.address}:${PORT}`
         );
-        console.log(`Production Environment: ${process.env.NODE_ENV === "production"}`)
+        console.log(
+          `Production Environment: ${process.env.NODE_ENV === "production"}`
+        );
       }
     }
   }
