@@ -8,7 +8,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "postinstall": "yarn run create:firebase-config",
-    "create:firebase-config": "node src/scripts/createFirebaseConfig.js"
+    "create:firebase-config": "node scripts/createFirebaseConfigFile.cjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
