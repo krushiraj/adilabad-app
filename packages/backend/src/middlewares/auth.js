@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import db from "../models/index.js";
 
 import config from "../config/index.js";
-import firebaseAdminConfig from "../../adb-app-krushi-firebase-adminsdk.json" assert { type: "json" };
+import firebaseAdminConfig from "../../firebase-adminsdk.json" assert { type: "json" };
 
 export const checkFirebaseUserId = async (req, res, next) => {
   if (!admin.apps.length) {

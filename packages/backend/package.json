@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "postinstall": "yarn run create:firebase-config",
+    "create:firebase-config": "node src/scripts/createFirebaseConfig.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
