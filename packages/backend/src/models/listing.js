@@ -2,13 +2,6 @@ import { Schema, model } from "mongoose";
 
 import timestamps from "./options/timestamp.js";
 
-const PhoneNumberSchema = new Schema({
-  phoneNumber: {
-    type: String,
-    default: null,
-  }
-});
-
 const MediaSchema = new Schema({
   url: {
     type: String,
@@ -36,8 +29,11 @@ const ListingSchema = new Schema(
       type: String,
       required: true,
     },
-    contactDetails: {
-      phoneNumbers: [PhoneNumberSchema],
+    phoneNumbers: [{
+      type: String,
+      default: null,
+    }],
+    links: {
       email: {
         type: String,
         default: null,

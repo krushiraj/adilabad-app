@@ -30,7 +30,6 @@ const CategoryGrid = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    console.log(selectedCategory);
     if (!selectedCategory) {
       return;
     }
@@ -42,7 +41,6 @@ const CategoryGrid = ({ navigation }) => {
         return response.json();
       })
       .then((itemsData) => {
-        console.log(itemsData);
         setItems(itemsData);
       })
       .catch((error) => {

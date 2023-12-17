@@ -11,8 +11,6 @@ const ReferencePicker = ({
   const [results, setResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
 
-  console.log("selectedResult", selectedResult);
-
   useEffect(() => {
     setSelectedResult(value);
   }, [value]);

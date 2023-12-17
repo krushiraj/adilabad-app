@@ -33,13 +33,11 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const signInWithPhoneNumber = async (phoneNumber) => {
-    console.log({ phoneNumber });
     const phoneProvider = new firebase.auth.PhoneAuthProvider();
     phoneProvider
       .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
       .then((result) => {
         setVerificationId(result);
-        console.log(result);
       });
   };
 
@@ -55,8 +53,6 @@ const LoginPage = () => {
         setOtp("");
         setPhoneNumber("");
         setShowOtpField(false);
-
-        console.log(result);
 
         const {
           user: { phoneNumber },

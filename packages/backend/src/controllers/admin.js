@@ -67,7 +67,6 @@ export const signIn = async (req, res) => {
       }
     );
 
-    
     delete admin._doc.password;
     req.session.user = admin._doc;
 
@@ -81,6 +80,18 @@ export const signIn = async (req, res) => {
       error: "Internal server error",
     });
   }
+};
+
+// signout admin
+export const signOut = async (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+
+    res.send({ message: "Signout successfully!" });
+  });
 };
 
 // update admin

@@ -101,14 +101,14 @@ export const remove = async (req, res) => {
 
     // delete all categories that have this category as parent
     const childrenData = await Category.deleteMany({ parentCategory: id });
-    // console.log(`Deleted ${childrenData.deletedCount} children categories.`);
+    console.log(`Deleted ${childrenData.deletedCount} children categories.`);
 
     // set category to null for all listings
     const listingData = await Listing.updateMany(
       { category: id },
       { category: null }
     );
-    // console.log(`Updated ${listingData.nModified} listings.`);
+    console.log(`Updated ${listingData.nModified} listings.`);
 
     const data = await Category.findByIdAndRemove(id);
     if (!data) {

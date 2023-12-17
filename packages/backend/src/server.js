@@ -36,7 +36,6 @@ app.use((req, res, next) => {
   logger.info(`Request body: ${JSON.stringify(req.body)}`);
   next();
   logger.info(`Response status: ${res.statusCode}`);
-  logger.info(`Response body: ${JSON.stringify(res.body)}`);
 });
 
 // enable CORS

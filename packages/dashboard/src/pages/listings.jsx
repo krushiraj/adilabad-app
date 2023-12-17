@@ -3,18 +3,17 @@ import { FiEdit2, FiTrash2, FiSearch, FiPlus } from "react-icons/fi";
 import { apiCallAddresses } from "../utils/api";
 import Modal from "../components/Modal";
 import { UserContext } from "../contexts/user";
-import CategoryForm from "../components/forms/Category";
+import ListingForm from "../components/forms/Listing";
 
-const CategoriesPage = () => {
+const ListingsPage = () => {
   const [user] = useContext(UserContext);
 
-  // eslint-disable-next-line no-unused-vars
   const [searchQuery, setSearchQuery] = useState("");
   const [items, setItems] = useState([]);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [categoryId, setCategoryId] = useState(null);
+  const [listingId, setListingId] = useState(null);
 
   const handleOpenModal = (setFlag) => {
     setFlag(true);
@@ -22,7 +21,7 @@ const CategoriesPage = () => {
 
   const handleCloseModal = (setFlag) => {
     setFlag(false);
-    setCategoryId(null);
+    setListingId(null);
   };
 
   const handleCreateForm = (data) => {
@@ -48,7 +47,7 @@ const CategoriesPage = () => {
   const fetchItems = async () => {
     try {
       const response = await fetch(
-        apiCallAddresses.categories.listByName`${searchQuery}`
+        apiCallAddresses.listings.listByName`${searchQuery}`
       );
 
       const items = await response.json();
@@ -64,7 +63,7 @@ const CategoriesPage = () => {
 
   const handleCreate = (data) => {
     // Make necessary API call to create an item
-    fetch(apiCallAddresses.categories.create, {
+    fetch(apiCallAddresses.listings.create, {
       credentials: "include",
       method: "POST",
       headers: {
@@ -73,13 +72,11 @@ const CategoriesPage = () => {
       },
       body: JSON.stringify({
         ...data,
-        ...(data.parentCategory
-          ? { parentCategory: data.parentCategory._id }
-          : {}),
+        category: data.category._id,
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         fetchItems();
       })
       .catch((error) => {
@@ -89,7 +86,7 @@ const CategoriesPage = () => {
 
   const handleEdit = (data) => {
     // Make necessary API call to edit an item
-    fetch(apiCallAddresses.categories.update`${categoryId}`, {
+    fetch(apiCallAddresses.listings.update`${listingId}`, {
       credentials: "include",
       method: "PUT",
       headers: {
@@ -98,33 +95,21 @@ const CategoriesPage = () => {
       },
       body: JSON.stringify({
         ...data,
-        ...(data.parentCategory
-          ? { parentCategory: data.parentCategory._id }
-          : {}),
+        category: data.category._id,
       }),
     })
       .then((response) => response.json())
       .then(() => {
         fetchItems();
-        setCategoryId(null);
+        setListingId(null);
       })
       .catch((error) => {
         console.error("Error editing item:", error);
       });
   };
 
-  const handleEditOpen = (itemId) => {
-    handleOpenModal(setEditModalOpen);
-    setCategoryId(itemId);
-  };
-
-  const handleDeleteOpen = (itemId) => {
-    handleOpenModal(setDeleteModalOpen);
-    setCategoryId(itemId);
-  };
-
   const handleDelete = async () => {
-    fetch(apiCallAddresses.categories.delete`${categoryId}`, {
+    fetch(apiCallAddresses.listings.delete`${listingId}`, {
       credentials: "include",
       method: "DELETE",
       headers: {
@@ -135,49 +120,59 @@ const CategoriesPage = () => {
       .then((response) => response.json())
       .then(() => {
         fetchItems();
-        setCategoryId(null);
+        setListingId(null);
       })
       .catch((error) => {
         console.error("Error deleting item:", error);
       });
   };
 
-  const CreateCategoryModal = () => (
+  const handleEditOpen = (itemId) => {
+    handleOpenModal(setEditModalOpen);
+    setListingId(itemId);
+  };
+
+  const handleDeleteOpen = (itemId) => {
+    handleOpenModal(setDeleteModalOpen);
+    setListingId(itemId);
+  };
+
+  const CreateListingModal = () => (
     <Modal
       isOpen={isCreateModalOpen}
       onClose={() => handleCloseModal(setCreateModalOpen)}
-      title="Create Category"
+      title="Create Listing"
       ChildForm={() => (
-        <CategoryForm onSubmit={handleCreateForm} mode="create" />
+        <ListingForm onSubmit={handleCreateForm} mode="create" />
       )}
     />
   );
 
-  const EditCategoryModal = () => (
+  const EditListingModal = () => (
     <Modal
       isOpen={isEditModalOpen}
       onClose={() => handleCloseModal(setEditModalOpen)}
-      title="Edit Category"
+      title="Edit Listing"
       ChildForm={() => (
-        <CategoryForm
+        <ListingForm
           onSubmit={handleUpdateForm}
           mode="edit"
-          categoryId={categoryId}
+          listingId={listingId}
         />
       )}
     />
   );
 
-  const DeleteCategoryModal = () => (
+  const DeleteListingModal = () => (
     <Modal
       isOpen={isDeleteModalOpen}
       onClose={() => handleCloseModal(setDeleteModalOpen)}
-      title="Delete Category"
+      title="Delete Listing"
       ChildForm={() => (
-        <CategoryForm
+        <ListingForm
           onSubmit={handleDeleteForm}
           mode="delete"
-          categoryId={categoryId}
+          listingId={listingId}
         />
       )}
     />
@@ -185,9 +180,9 @@ const CategoriesPage = () => {
 
   return user ? (
     <>
-      <CreateCategoryModal />
-      <EditCategoryModal />
-      <DeleteCategoryModal />
+      <CreateListingModal />
+      <EditListingModal />
+      <DeleteListingModal />
 
       <div className="flex justify-between p-4 bg-white shadow">
         <input
@@ -213,7 +208,7 @@ const CategoriesPage = () => {
       </div>
       <ul className="divide-y divide-gray-100">
         <div className="flex justify-between items-center p-4 bg-gray-200 border-b">
-          <span>Category name</span>
+          <span>Listing name</span>
           <span>Actions</span>
         </div>
         {items.map((item) => (
@@ -222,13 +217,13 @@ const CategoriesPage = () => {
               <span>{item.name}</span>
               <div className="flex flex-row space-x-4">
                 <button
-                  className="text-blue-500 font-bold py-2 px-4 border rounder"
+                  className="text-blue-500 font-bold py-2 px-4 border rounded"
                   onClick={() => handleEditOpen(item._id)}
                 >
                   <FiEdit2 />
                 </button>
                 <button
-                  className="text-red-500 font-bold py-2 px-4 border rounder"
+                  className="text-red-500 font-bold py-2 px-4 border rounded"
                   onClick={() => handleDeleteOpen(item._id)}
                 >
                   <FiTrash2 />
@@ -248,4 +243,4 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage;
+export default ListingsPage;

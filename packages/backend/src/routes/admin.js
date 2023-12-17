@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   signUp,
   signIn,
+  signOut,
   changePassword,
   updateAdmin,
   deleteAdmin,
@@ -16,7 +17,13 @@ const twoSecondRateLimiter = rateLimiter(2000, 1);
 
 router.post("/signup", twoSecondRateLimiter, signUp);
 router.post("/signin", twoSecondRateLimiter, signIn);
-router.put("/change-password/:id", twoSecondRateLimiter, verifyToken, changePassword);
+router.post("/signout", twoSecondRateLimiter, verifyToken, signOut);
+router.put(
+  "/change-password/:id",
+  twoSecondRateLimiter,
+  verifyToken,
+  changePassword
+);
 router.put("/update/:id", twoSecondRateLimiter, verifyToken, updateAdmin);
 router.delete("/delete/:id", twoSecondRateLimiter, verifyToken, deleteAdmin);
 

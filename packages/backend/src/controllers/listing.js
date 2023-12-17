@@ -5,11 +5,13 @@ const Listing = db.Listing;
 // Get all listings
 export const findAll = async (req, res) => {
   try {
-    const query = {
-      ...req.query,
-    }
+    const condition = {
+      ...("name" in req.query
+        ? { name: { $regex: new RegExp(req.query.name), $options: "i" } }
+        : {}),
+    };
 
-    const listings = await Listing.find(query).populate("category");
+    const listings = await Listing.find(condition).populate("category");
     res.json(listings);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });

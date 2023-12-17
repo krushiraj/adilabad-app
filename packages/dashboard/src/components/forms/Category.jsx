@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import ReferencePicker from "../ReferencePicker";
-import { apiCallAddresses } from "../../../utils/api";
+import ReferencePicker from "./ReferencePicker";
+import { apiCallAddresses } from "../../utils/api";
 
-const CreateCategoryForm = ({
+const CategoryForm = ({
   onSubmit,
   categoryId,
   mode, // "create" or "edit" or "delete"
@@ -18,7 +18,6 @@ const CreateCategoryForm = ({
       fetch(url)
         .then((res) => res.json())
         .then((data) => {
-          console.log("data", data);
           setName(data.name);
           setDescription(data.description);
           setImage(data.image);
@@ -119,7 +118,11 @@ const CreateCategoryForm = ({
       </div>
       <button
         type="submit"
-        className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white font-medium"
+        className={`w-full py-2 px-4 ${
+          mode !== "delete"
+            ? "bg-blue-600 hover:bg-blue-700"
+            : "bg-red-600 hover:bg-red-700"
+        } rounded-md text-white font-medium`}
       >
         {action} Category
       </button>
@@ -127,4 +130,4 @@ const CreateCategoryForm = ({
   );
 };
 
-export default CreateCategoryForm;
+export default CategoryForm;
