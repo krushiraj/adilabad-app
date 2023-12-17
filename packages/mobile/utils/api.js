@@ -1,4 +1,6 @@
-const HOST = 'http://192.168.1.26:8000';
+import config from "../config";
+
+const HOST = config.BACKEND_HOST;
 
 export const apiCallAddresses = {
   auth: {

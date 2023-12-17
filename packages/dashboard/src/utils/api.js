@@ -1,4 +1,6 @@
-const HOST = "http://localhost:8000";
+import config from "../../../backend/src/config";
+
+const HOST = config.BACKEND_HOST;
 
 export const apiCallAddresses = {
   auth: {
