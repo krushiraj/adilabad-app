@@ -68,7 +68,7 @@ app.use(
     cookie: {
       secure: true, // Set to true if using https
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days validity
-      sameSite: "none",
+      sameSite: "strict",
       httpOnly: true,
     },
   })

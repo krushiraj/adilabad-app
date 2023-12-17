@@ -6,7 +6,7 @@ const rateLimiter = (windowMs, max) =>
     max,
     standardHeaders: true,
     validate: {
-      xForwardedForHeader: true,
+      xForwardedForHeader: false,
     }
   });
 
