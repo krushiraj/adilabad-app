@@ -1,4 +1,8 @@
 node_modules
 logs.log
 .env
+.env.production
 packages/backend/firebase-adminsdk.json
+app-apks
+*apks
+*aab

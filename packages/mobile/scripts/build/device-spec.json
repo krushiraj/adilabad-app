@@ -1,0 +1,7 @@
+{
+  "supportedAbis": ["armeabi-v7a", "arm64-v8a", "x86", "x86_64"],
+  "supportedLocales": ["en", "es", "fr"],
+  "screenDensity": 480,
+  "sdkVersion": 28,
+  "deviceFeatures": ["android.hardware.camera", "android.hardware.touchscreen"]
+}
