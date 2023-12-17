@@ -11,7 +11,10 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleSignout = () => {
-    fetch(apiCallAddresses.auth.signout)
+    fetch(apiCallAddresses.auth.signout, {
+      method: "POST",
+      credentials: "include",
+    })
       .then(() => {
         navigate("/");
         deleteUser();
