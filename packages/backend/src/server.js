@@ -40,7 +40,11 @@ app.use((req, res, next) => {
 
 // enable CORS
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:3001", "https://adilabad-app-dashboard.vercel.app"],
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://adilabad-app-dashboard.vercel.app",
+  ],
   credentials: true,
   optionsSuccessStatus: 200,
 };
@@ -62,7 +66,7 @@ app.use(
       collectionName: "sessions",
     }),
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Set to true if using https
+      secure: process.env.NODE_ENV === "production" ? true : false, // Set to true if using https
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days validity
       sameSite: "lax",
     },
