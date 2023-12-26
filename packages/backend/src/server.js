@@ -61,9 +61,9 @@ const sessionCookieConfig = {
   httpOnly: false,
 };
 if (process.env.NODE_ENV === "production") {
-  sessionCookieConfig.sameSite = "none";
+  sessionCookieConfig.sameSite = "lax";
   sessionCookieConfig.secure = true;
-  sessionCookieConfig.domain = ".vercel.app";
+  sessionCookieConfig.domain = "adilabad-app-dashboard.vercel.app";
   sessionCookieConfig.path = "/";
 } 
 
