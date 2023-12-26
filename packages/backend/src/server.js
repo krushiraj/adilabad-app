@@ -56,6 +56,17 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+const sessionCookieConfig = {
+  maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days validity
+  httpOnly: false,
+};
+if (process.env.NODE_ENV === "production") {
+  sessionCookieConfig.sameSite = "none";
+  sessionCookieConfig.secure = true;
+  sessionCookieConfig.domain = ".vercel.app";
+  sessionCookieConfig.path = "/";
+} 
+
 app.use(
   session({
     secret: config.JWT_SECRET, // Set a secret for signing the session ID cookie
@@ -65,12 +76,7 @@ app.use(
       mongoUrl: config.MONGO_URI,
       collectionName: "sessions",
     }),
-    cookie: {
-      secure: true, // Set to true if using https
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days validity
-      sameSite: "strict",
-      httpOnly: true,
-    },
+    cookie: sessionCookieConfig,
   })
 );
 
