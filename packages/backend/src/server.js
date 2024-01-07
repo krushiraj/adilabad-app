@@ -43,7 +43,7 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "http://localhost:3001",
-    "https://adilabad-app-dashboard.vercel.app",
+    "https://adilabad-app-dashboard.up.railway.app",
   ],
   credentials: true,
   optionsSuccessStatus: 200,
@@ -64,7 +64,7 @@ if (process.env.NODE_ENV === "production") {
   console.log("Production environment detected.");
   sessionCookieConfig.sameSite = "lax";
   sessionCookieConfig.secure = true;
-  sessionCookieConfig.domain = "adilabad-app-dashboard.vercel.app";
+  sessionCookieConfig.domain = "*.up.railway.app";
   sessionCookieConfig.path = "/";
   console.log(sessionCookieConfig);
 } 
