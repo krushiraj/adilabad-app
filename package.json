@@ -9,7 +9,8 @@
     "packages/*"
   ],
   "scripts": {
-    "start:backend": "yarn --cwd packages/backend start"
+    "start:backend": "yarn --cwd packages/backend start",
+    "start:dashboard": "yarn --cwd packages/dashboard start"
   },
   "license": "MIT"
 }
