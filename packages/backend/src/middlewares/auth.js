@@ -44,21 +44,31 @@ export const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized!" });
     }
-    if (req.session.user._id !== decoded._id) {
-      return res.status(401).send({ message: "Unauthorized!" });
-    }
     next();
   });
 };
 
 export const isAdmin = async (req, res, next) => {
-  try {
-    const admin = await db.Admin.findById(req.session.user._id);
-    if (!admin) {
-      return res.status(403).send({ message: "Require Admin Role!" });
-    }
-    next();
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+  const token = req.headers["x-access-token"];
+
+  if (!token) {
+    return res.status(403).send({ message: "No token provided!" });
   }
+
+  jwt.verify(token, config.JWT_SECRET, async (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: "Unauthorized!" });
+    }
+
+    try {
+      const admin = await db.Admin.findById(decoded._id);
+      if (!admin) {
+        return res.status(401).send({ message: "Unauthorized!" });
+      }
+    } catch (error) {
+      return res.status(401).send({ message: "Unauthorized!" });
+    }
+
+    next();
+  });
 };

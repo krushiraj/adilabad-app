@@ -68,7 +68,6 @@ export const signIn = async (req, res) => {
     );
 
     delete admin._doc.password;
-    req.session.user = admin._doc;
 
     res.json({
       token,
@@ -84,13 +83,8 @@ export const signIn = async (req, res) => {
 
 // signout admin
 export const signOut = async (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-
-    res.send({ message: "Signout successfully!" });
+  res.json({
+    message: "Signout successful",
   });
 };
 
