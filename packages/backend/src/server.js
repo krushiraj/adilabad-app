@@ -41,7 +41,7 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "http://localhost:3001",
-    "https://adilabad-app-dashboard.up.railway.app",
+    "https://adb-app-dashboard.up.railway.app",
   ],
   credentials: true,
   optionsSuccessStatus: 200,
