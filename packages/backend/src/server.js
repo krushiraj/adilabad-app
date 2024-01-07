@@ -86,7 +86,7 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-app.get("/api/isalive", (req, res) => {
+app.get("/isalive", (req, res) => {
   // check mongodb connection
   const { readyState } = db.mongoose.connection;
   if (readyState) {
@@ -96,10 +96,10 @@ app.get("/api/isalive", (req, res) => {
   }
 });
 
-app.use("/api/user", userRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/category", categoryRoutes);
-app.use("/api/listing", listingRoutes);
+app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
+app.use("/category", categoryRoutes);
+app.use("/listing", listingRoutes);
 
 const PORT = process.env.PORT || 8000;
 
