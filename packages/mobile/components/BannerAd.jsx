@@ -3,16 +3,20 @@ import {
   ScrollView,
   Text,
   Animated,
-  Dimensions,
   StyleSheet,
 } from "react-native";
+
+const charWidth = 16;
+const padding = 160;
+
+const getWidthOfAdByChar = (charCount) => {
+  return (charCount * charWidth) + padding;
+}
 
 const BannerAd = ({ ads }) => {
   const scrollX = new Animated.Value(0);
   const scrollViewRef = useRef();
-  const screenWidth = Dimensions.get("window").width;
-  const adWidth = screenWidth; // Assuming each ad takes up the full width of the screen
-  const totalWidth = adWidth * ads.length;
+  const totalWidth = ads.reduce((acc, ad) => acc + getWidthOfAdByChar(ad.content.length), 0);
 
   scrollX.addListener(({ value }) => {
     if (scrollViewRef.current) {
@@ -23,8 +27,8 @@ const BannerAd = ({ ads }) => {
   useEffect(() => {
     Animated.loop(
       Animated.timing(scrollX, {
-        toValue: -totalWidth,
-        duration: ads.length * 10000, // Adjust time here for speed control
+        toValue: -totalWidth/2,
+        duration: ads.length * 5000, // Adjust time here for speed control
         useNativeDriver: true,
       })
     ).start();
@@ -52,9 +56,9 @@ const BannerAd = ({ ads }) => {
           transform: [{ translateX: scrollX }],
         }}
       >
-        {ads.map((ad, index) => (
-          <Text key={index} style={styles.bannerText}>
-            {ad.title}
+        {ads.map((ad) => (
+          <Text key={ad._id} style={styles.bannerText}>
+            {ad.content}
           </Text>
         ))}
       </Animated.View>
@@ -74,8 +78,8 @@ const styles = StyleSheet.create({
     backgroundColor: "lightblue",
   },
   bannerText: {
-    fontSize: 16,
-    marginHorizontal: 20,
+    fontSize: charWidth,
+    marginHorizontal: padding/2,
     marginVertical: "auto",
     textAlignVertical: "center",
     alignItems: "center",

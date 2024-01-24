@@ -49,11 +49,13 @@ const ImageCarousel = ({ images, interval = 2000 }) => {
         scrollEventThrottle={200}
         style={styles.carouselContainer}
       >
-        {images.map((image, index) => (
+        {images.map((image) => (
           <Image
-            key={index}
-            source={{ uri: image }}
+            key={image._id}
+            source={{ uri: image.content }}
             style={{ width: screenWidth, resizeMode: "stretch" }}
+            accessible={true}
+            accessibilityLabel={image.alt}
           />
         ))}
       </ScrollView>

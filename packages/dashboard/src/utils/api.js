@@ -4,27 +4,36 @@ const HOST = config.BACKEND_HOST;
 
 export const apiCallAddresses = {
   auth: {
-    signin: `${HOST}/admin/signin`,
-    signout: `${HOST}/admin/signout`,
+    signin: `${HOST}/api/admin/signin`,
+    signout: `${HOST}/api/admin/signout`,
+  },
+  advertisements: {
+    create: `${HOST}/api/advertisement/`,
+    read: (_, id) => `${HOST}/api/advertisement/${id}`,
+    update: (_, id) => `${HOST}/api/advertisement/${id}`,
+    delete: (_, id) => `${HOST}/api/advertisement/${id}`,
+    listAll: `${HOST}/api/advertisement`,
+    listByQuery: (_, query) =>
+      `${HOST}/api/advertisement${query ? `?q=${query}` : ""}`,
   },
   categories: {
-    create: `${HOST}/category/`,
-    read: (_, id) => `${HOST}/category/${id}`,
-    update: (_, id) => `${HOST}/category/${id}`,
-    delete: (_, id) => `${HOST}/category/${id}`,
-    listAll: `${HOST}/category`,
+    create: `${HOST}/api/category/`,
+    read: (_, id) => `${HOST}/api/category/${id}`,
+    update: (_, id) => `${HOST}/api/category/${id}`,
+    delete: (_, id) => `${HOST}/api/category/${id}`,
+    listAll: `${HOST}/api/category`,
     listByName: (_, query) =>
-      `${HOST}/category${query ? `?name=${query}` : ""}`,
+      `${HOST}/api/category${query ? `?name=${query}` : ""}`,
     listByNameWithoutParent: (_, name) =>
-      `${HOST}/category?parentCategory=&name=${name}`,
+      `${HOST}/api/category?parentCategory=&name=${name}`,
   },
   listings: {
-    create: `${HOST}/listing/`,
-    read: (_, id) => `${HOST}/listing/${id}`,
-    update: (_, id) => `${HOST}/listing/${id}`,
-    delete: (_, id) => `${HOST}/listing/${id}`,
+    create: `${HOST}/api/listing/`,
+    read: (_, id) => `${HOST}/api/listing/${id}`,
+    update: (_, id) => `${HOST}/api/listing/${id}`,
+    delete: (_, id) => `${HOST}/api/listing/${id}`,
     listByName: (_, query) =>
-      `${HOST}/listing${query ? `?name=${query}` : ""}`,
-    listAll: `${HOST}/listing`,
+      `${HOST}/api/listing${query ? `?name=${query}` : ""}`,
+    listAll: `${HOST}/api/listing`,
   },
 };

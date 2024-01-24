@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 
 // components
 import BannerAd from "../components/BannerAd";
 import ImageCarousel from "../components/ImageCarousel";
 import CategoryGrid from "../components/CategoryGrid";
+import { apiCallAddresses } from "../utils/api";
 
 const HomePage = ({ navigation }) => {
+  const [ads, setAds] = React.useState([]);
+  const [carouselImages, setCarouselImages] = React.useState([]);
+
+  useEffect(() => {
+    fetch(apiCallAddresses.advertisements.listAll)
+      .then((res) => res.json())
+      .then((data) => {
+        setCarouselImages(data.filter((ad) => ad.type === "image"));
+        setAds(data.filter((ad) => ad.type === "text")); 
+      })
+      .catch(console.error);
+  }, []);
+
   return (
     <>
       <BannerAd ads={ads} />
@@ -15,24 +29,6 @@ const HomePage = ({ navigation }) => {
     </>
   );
 };
-
-const ads = [
-  {
-    id: 1,
-    title: "ADILABAD APP : All-In-One App for local business.",
-  },
-  {
-    id: 2,
-    title: "Now we are on Android and iOS as native apps. Download Now!",
-  },
-];
-
-const carouselImages = [
-  "https://localpay.s3.ap-south-1.amazonaws.com/graphics/adilabad_1.jpg",
-  "https://localpay.s3.ap-south-1.amazonaws.com/graphics/adilabad_2.jpg",
-  "https://localpay.s3.ap-south-1.amazonaws.com/graphics/adilabad_3.jpg",
-  "https://localpay.s3.ap-south-1.amazonaws.com/graphics/adilabad_4.jpg",
-];
 
 const styles = StyleSheet.create({
   container: {

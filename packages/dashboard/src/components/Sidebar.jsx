@@ -12,7 +12,6 @@ const Sidebar = () => {
       <nav>
         <NavLink
           to="/"
-          activeClassName="bg-gray-900"
           className={`block py-2.5 px-4 rounded transition duration-200 ${
             location.pathname === "/" ? "bg-gray-900" : ""
           }`}
@@ -20,8 +19,15 @@ const Sidebar = () => {
           Home
         </NavLink>
         <NavLink
+          to="/advertisements"
+          className={`block py-2.5 px-4 rounded transition duration-200 ${
+            location.pathname === "/advertisements" ? "bg-gray-900" : ""
+          }`}
+        >
+          Advertisements
+        </NavLink>
+        <NavLink
           to="/categories"
-          activeClassName="bg-gray-900"
           className={`block py-2.5 px-4 rounded transition duration-200 ${
             location.pathname === "/categories" ? "bg-gray-900" : ""
           }`}
@@ -30,7 +36,6 @@ const Sidebar = () => {
         </NavLink>
         <NavLink
           to="/listings"
-          activeClassName="bg-gray-900"
           className={`block py-2.5 px-4 rounded transition duration-200 ${
             location.pathname === "/listings" ? "bg-gray-900" : ""
           }`}

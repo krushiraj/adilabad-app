@@ -16,6 +16,7 @@ const CategoryGrid = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
+    console.log("Fetching categories:", apiCallAddresses.categories.listAllWithoutParent);
     fetch(apiCallAddresses.categories.listAllWithoutParent)
       .then((response) => {
         return response.json();

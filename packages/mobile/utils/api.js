@@ -7,6 +7,15 @@ export const apiCallAddresses = {
     signin: `${HOST}/api/admin/signin`,
     signout: `${HOST}/api/admin/signout`,
   },
+  advertisements: {
+    create: `${HOST}/api/advertisement/`,
+    read: (_, id) => `${HOST}/api/advertisement/${id}`,
+    update: (_, id) => `${HOST}/api/advertisement/${id}`,
+    delete: (_, id) => `${HOST}/api/advertisement/${id}`,
+    listAll: `${HOST}/api/advertisement`,
+    listByQuery: (_, query) =>
+      `${HOST}/api/advertisement${query ? `?q=${query}` : ""}`,
+  },
   categories: {
     create: `${HOST}/api/category/`,
     read: (_, id) => `${HOST}/api/category/${id}`,
