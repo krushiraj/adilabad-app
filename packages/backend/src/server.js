@@ -6,10 +6,11 @@ import os from "os";
 
 import db from "./models/index.js";
 
-import userRoutes from "./routes/user.js";
 import adminRoutes from "./routes/admin.js";
+import advertisementRoutes from "./routes/advertisement.js";
 import categoryRoutes from "./routes/category.js";
 import listingRoutes from "./routes/listing.js";
+import userRoutes from "./routes/user.js";
 
 import config from "./config/index.js";
 
@@ -68,10 +69,11 @@ app.get("/isalive", (req, res) => {
   }
 });
 
-app.use("/user", userRoutes);
-app.use("/admin", adminRoutes);
-app.use("/category", categoryRoutes);
-app.use("/listing", listingRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/advertisement", advertisementRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/listing", listingRoutes);
 
 const PORT = process.env.PORT || 8000;
 
@@ -82,7 +84,7 @@ app.listen(PORT, async () => {
   });
 
   if (dbConnection) {
-    console.log("Connected to MongoDB.");
+    logger.info("Connected to MongoDB.");
 
     // check if any admin exists
     const admin = await db.Admin.findOne();
@@ -94,7 +96,7 @@ app.listen(PORT, async () => {
         password: await bcrypt.hash("admin", 8),
       });
 
-      console.log("Created a default admin.");
+      logger.info("Created a default admin.");
     }
   }
 
@@ -103,14 +105,14 @@ app.listen(PORT, async () => {
     for (const net of networkInterfaces[name]) {
       // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
       if (net.family === "IPv4" && !net.internal) {
-        console.log(
+        logger.info(
           `Backend server is running on http://${net.address}:${PORT}`
         );
         
       }
     }
   }
-  console.log(
+  logger.info(
     `Production Environment: ${process.env.NODE_ENV === "production"}`
   );
 });
