@@ -7,6 +7,10 @@ node_modules/
 .expo/
 dist/
 web-build/
+app-apks/
+*.aab
+*.apks
+*.apk
 
 # Native
 *.orig.*
