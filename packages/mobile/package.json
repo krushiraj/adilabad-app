@@ -7,11 +7,7 @@
     "android": "expo run:android --go",
     "ios": "expo run:ios --go",
     "web": "expo start --web",
-    "build:android": "eas build --platform android",
-    "build:android:rename-aab": "mv *.aab app.aab",
-    "build:android:extract-apks": "java -jar ./scripts/build/bundletool-all-1.15.6.jar build-apks --bundle=./app.aab --output=./app.apks --mode=universal",
-    "build:android:extract-apk": "java -jar ./scripts/build/bundletool-all-1.15.6.jar extract-apks --apks=./app.apks --output-dir=./app-apks --device-spec=./scripts/build/device-spec.json",
-    "build:android:apk": "yarn build:android:rename-aab && yarn build:android:extract-apks && yarn build:android:extract-apk"
+    "build:android": "./scripts/build-apk.sh"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
